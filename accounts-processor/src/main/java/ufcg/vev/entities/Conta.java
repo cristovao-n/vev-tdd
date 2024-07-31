@@ -18,7 +18,7 @@ public class Conta {
         this.valor = valor;
     }
 
-    public void pagarConta(String codigoConta, TipoPagamento tipoPagamento) {
+    public void pagar(TipoPagamento tipoPagamento) {
 
     }
 

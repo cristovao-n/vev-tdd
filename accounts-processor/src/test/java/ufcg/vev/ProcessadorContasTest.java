@@ -3,6 +3,7 @@ package ufcg.vev;
 import org.junit.jupiter.api.Test;
 import ufcg.vev.entities.Conta;
 import ufcg.vev.entities.Fatura;
+import ufcg.vev.enums.TipoPagamento;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -34,9 +35,25 @@ class ProcessadorContasTest {
                     new Conta("1", new Date(2023, Calendar.FEBRUARY, 17), BigDecimal.valueOf(800))
             )));
 
-    @Test
-    void test01() {
-        assertEquals(1, 1);
-    }
+    private final Fatura faturaContasInvalidasBoleto = new Fatura(
+            new Date(2023, Calendar.FEBRUARY, 20),
+            "Everton",
+            new ArrayList<>(List.of(
+                    new Conta("1", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(0.001)),
+                    new Conta("1", new Date(2023, Calendar.FEBRUARY, 17), BigDecimal.valueOf(5001))
+            )));
 
+    @Test
+    void testBoletoMenorQue1Centavo() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
+        Conta conta0 = processadorContas.getContas().get(0);
+        Conta conta1 = processadorContas.getContas().get(1);
+        assertThrows(RuntimeException.class, () -> {
+            conta0.pagar(TipoPagamento.BOLETO);
+        });
+
+        assertThrows(RuntimeException.class, () -> {
+            conta1.pagar(TipoPagamento.BOLETO);
+        });
+    }
 }
