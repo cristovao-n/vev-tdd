@@ -7,10 +7,10 @@ import java.util.List;
 public class Show {
     private LocalDate date;
     private String artist;
-    private double fee;
-    private double infrastructureExpenses;
+    private Double fee;
+    private Double infrastructureExpenses;
     private List<TicketLot> ticketLots;
-    private boolean isInSpecialDate;
+    private Boolean isInSpecialDate;
 
     private Show(Builder builder) {
         this.date = builder.date;
@@ -32,10 +32,10 @@ public class Show {
     public static class Builder {
         private LocalDate date;
         private String artist;
-        private double fee;
-        private double infrastructureExpenses;
+        private Double fee;
+        private Double infrastructureExpenses;
         private List<TicketLot> ticketLots;
-        private boolean isInSpecialDate;
+        private Boolean isInSpecialDate;
 
         public Builder date(LocalDate date) {
             this.date = date;
