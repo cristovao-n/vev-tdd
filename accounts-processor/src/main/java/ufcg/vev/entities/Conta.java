@@ -22,4 +22,12 @@ public class Conta {
 
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
 }

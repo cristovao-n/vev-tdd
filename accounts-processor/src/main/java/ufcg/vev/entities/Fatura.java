@@ -16,4 +16,8 @@ public class Fatura {
         this.nomeCliente = nomeCliente;
         this.contas = contas;
     }
+
+    public List<Conta> getContas() {
+        return this.contas;
+    }
 }
