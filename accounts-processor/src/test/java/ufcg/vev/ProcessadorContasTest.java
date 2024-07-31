@@ -50,5 +50,10 @@ class ProcessadorContasTest {
         assertEquals("Valor da conta deve ser maior que 0.01 para ser paga com boleto", e.getMessage());
     }
 
-
+    @Test
+    void testBoletoMaiorQue5000() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("2", TipoPagamento.BOLETO));
+        assertEquals("Valor da conta deve ser menor que 5000 para ser paga com boleto", e.getMessage());
+    }
 }
