@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ShowTest {
 
@@ -95,6 +94,34 @@ class ShowTest {
 
         assertTrue(vipRatio >= 0.2 && vipRatio <= 0.3);
         assertTrue(halfRatio <= 0.1);
+        double expectedNormalRatio = 1 - (vipRatio + halfRatio);
+        assertEquals(expectedNormalRatio, normalRatio);
+    }
+
+    @Test
+    void testUnproportionalTicketRatios() {
+        this.show.setTicketLots(Collections.singletonList(this.makeProportionalTicketLots()));
+        List<Ticket> allTickets = new ArrayList<>(this.show.getTicketLots().stream().flatMap(ticketLot -> ticketLot.getTickets().stream()).toList());
+        allTickets.remove(0);
+        allTickets.remove(1);
+
+        int countVIP = 0;
+        int countHalf = 0;
+        int countNormal = 0;
+        int ticketTotal = allTickets.size();
+        for (Ticket ticket : allTickets) {
+            switch (ticket.getType()) {
+                case VIP -> countVIP++;
+                case HALF -> countHalf++;
+                case NORMAL -> countNormal++;
+            }
+        }
+        double vipRatio = (double) countVIP / ticketTotal;
+        double halfRatio = (double) countHalf / ticketTotal;
+        double normalRatio = (double) countNormal / ticketTotal;
+
+        assertFalse(vipRatio >= 0.2 && vipRatio <= 0.3);
+        assertFalse(halfRatio <= 0.1);
         double expectedNormalRatio = 1 - (vipRatio + halfRatio);
         assertEquals(expectedNormalRatio, normalRatio);
     }
