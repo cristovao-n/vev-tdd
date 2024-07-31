@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static entities.EntityMaker.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShowTest {
@@ -15,60 +16,26 @@ class ShowTest {
     private Show show;
     private TicketLot ticketLot;
 
-    private Ticket makeTicket(TicketType type) {
-        return new Ticket.Builder()
-                .id(0L)
-                .type(type)
-                .build();
-    }
-
     private TicketLot makeEmptyTicketLot(Long id, Double discount, Double normalTicketPrice) {
-        return new TicketLot.Builder()
-                .id(id)
-                .tickets(Collections.emptyList())
-                .discount(discount)
-                .normalTicketPrice(normalTicketPrice)
-                .build();
+        return makeTicketLot(id, Collections.emptyList(), discount, normalTicketPrice);
     }
 
     private TicketLot makeProportionalTicketLots(Long id, Double discount, Double normalTicketPrice) {
         List<Ticket> tenTickets = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            tenTickets.add(makeTicket(TicketType.VIP));
+            tenTickets.add(makeTicket((long) i, TicketType.VIP));
         }
-        tenTickets.add(makeTicket(TicketType.HALF));
+        tenTickets.add(makeTicket(3L, TicketType.HALF));
         for (int i = 0; i < 6; i++) {
-            tenTickets.add(makeTicket(TicketType.NORMAL));
+            tenTickets.add(makeTicket((long) (i + 4), TicketType.NORMAL));
         }
-        return new TicketLot
-                .Builder()
-                .id(id)
-                .tickets(tenTickets)
-                .discount(discount)
-                .normalTicketPrice(normalTicketPrice)
-                .build();
-    }
-
-    private Show makeShow(LocalDate date,
-                          String artist,
-                          Double fee,
-                          Double infrastructureExpenses,
-                          List<TicketLot> ticketLots,
-                          Boolean isInSpecialDate) {
-        return new Show.Builder()
-                .date(date)
-                .artist(artist)
-                .fee(fee)
-                .infrastructureExpenses(infrastructureExpenses)
-                .ticketLots(ticketLots)
-                .isInSpecialDate(isInSpecialDate)
-                .build();
+        return makeTicketLot(id, tenTickets, discount, normalTicketPrice);
     }
 
     @BeforeEach
     void init() {
         this.ticketLot = this.makeEmptyTicketLot(0L, 0.25, 10D);
-        this.show = this.makeShow(
+        this.show = makeShow(
                 LocalDate.now(),
                 "artist",
                 0.0,

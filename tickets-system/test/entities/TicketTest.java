@@ -3,22 +3,17 @@ package entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static entities.EntityMaker.makeTicket;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TicketTest {
 
     private Ticket ticket;
 
-    private Ticket makeTicket(Long id, TicketType type) {
-        return new Ticket.Builder()
-                .id(id)
-                .type(type)
-                .build();
-    }
-
     @BeforeEach
     void init() {
-        this.ticket = this.makeTicket(0L, TicketType.NORMAL);
+        this.ticket = makeTicket(0L, TicketType.NORMAL);
     }
 
     @Test
