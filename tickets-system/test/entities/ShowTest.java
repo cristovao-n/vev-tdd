@@ -21,14 +21,16 @@ class ShowTest {
                 .build();
     }
 
-    private TicketLot makeEmptyTicketLot(List<Ticket> tickets) {
-        return new TicketLot
-                .Builder()
-                .tickets(tickets)
+    private TicketLot makeEmptyTicketLot(Long id, Double discount, Double normalTicketPrice) {
+        return new TicketLot.Builder()
+                .id(id)
+                .tickets(Collections.emptyList())
+                .discount(discount)
+                .normalTicketPrice(normalTicketPrice)
                 .build();
     }
 
-    private TicketLot makeProportionalTicketLots() {
+    private TicketLot makeProportionalTicketLots(Long id, Double discount, Double normalTicketPrice) {
         List<Ticket> tenTickets = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             tenTickets.add(makeTicket(TicketType.VIP));
@@ -39,7 +41,10 @@ class ShowTest {
         }
         return new TicketLot
                 .Builder()
+                .id(id)
                 .tickets(tenTickets)
+                .discount(discount)
+                .normalTicketPrice(normalTicketPrice)
                 .build();
     }
 
@@ -61,7 +66,7 @@ class ShowTest {
 
     @BeforeEach
     void init() {
-        this.ticketLot = this.makeEmptyTicketLot(Collections.emptyList());
+        this.ticketLot = this.makeEmptyTicketLot(0L, 0.25, 10D);
         this.show = this.makeShow(
                 LocalDate.now(),
                 "artist",
@@ -74,7 +79,7 @@ class ShowTest {
 
     @Test
     void testTicketRatios() {
-        this.show.setTicketLots(Collections.singletonList(this.makeProportionalTicketLots()));
+        this.show.setTicketLots(Collections.singletonList(this.makeProportionalTicketLots(0L, 0.25, 10D)));
         List<Ticket> allTickets = this.show.getTicketLots().stream().flatMap(ticketLot -> ticketLot.getTickets().stream()).toList();
         int countVIP = 0;
         int countHalf = 0;
@@ -99,7 +104,7 @@ class ShowTest {
 
     @Test
     void testUnproportionalTicketRatios() {
-        this.show.setTicketLots(Collections.singletonList(this.makeProportionalTicketLots()));
+        this.show.setTicketLots(Collections.singletonList(this.makeProportionalTicketLots(0L, 0.25, 10D)));
         List<Ticket> allTickets = new ArrayList<>(this.show.getTicketLots().stream().flatMap(ticketLot -> ticketLot.getTickets().stream()).toList());
         allTickets.remove(0);
         allTickets.remove(1);

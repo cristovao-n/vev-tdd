@@ -21,7 +21,7 @@ public class TicketLotTest {
                 .build();
     }
 
-    private TicketLot makeEmptyTicketLot(Long id, List<Ticket> tickets, double discount, double normalTicketPrice) {
+    private TicketLot makeTicketLot(Long id, List<Ticket> tickets, double discount, double normalTicketPrice) {
         return new TicketLot.Builder()
                 .id(id)
                 .tickets(tickets)
@@ -36,7 +36,7 @@ public class TicketLotTest {
         tickets.add(this.makeTicket(0L, TicketType.VIP, TicketStatus.NOT_SOLD));
         tickets.add(this.makeTicket(0L, TicketType.HALF, TicketStatus.NOT_SOLD));
         tickets.add(this.makeTicket(0L, TicketType.NORMAL, TicketStatus.NOT_SOLD));
-        this.ticketLot = this.makeEmptyTicketLot(0L, tickets, 0.25, 10);
+        this.ticketLot = this.makeTicketLot(0L, tickets, 0.25, 10);
     }
 
     @Test
@@ -48,18 +48,18 @@ public class TicketLotTest {
 
     @Test
     void testDiscountGreaterThan25() {
-        assertThrows(RuntimeException.class, () -> this.makeEmptyTicketLot(0L, Collections.emptyList(), 0.26, 10));
+        assertThrows(RuntimeException.class, () -> this.makeTicketLot(0L, Collections.emptyList(), 0.26, 10));
     }
 
     @Test
     void testDiscountEqualTo25() {
-        TicketLot test = this.makeEmptyTicketLot(0L, Collections.emptyList(), 0.25, 10);
+        TicketLot test = this.makeTicketLot(0L, Collections.emptyList(), 0.25, 10);
         assertEquals(0.25, test.getDiscount());
     }
 
     @Test
     void testDiscountLessThan25() {
-        TicketLot test = this.makeEmptyTicketLot(0L, Collections.emptyList(), 0.24, 10);
+        TicketLot test = this.makeTicketLot(0L, Collections.emptyList(), 0.24, 10);
         assertEquals(0.24, test.getDiscount());
     }
 }
