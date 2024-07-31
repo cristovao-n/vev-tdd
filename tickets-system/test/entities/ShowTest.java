@@ -84,20 +84,18 @@ class ShowTest {
         int ticketTotal = allTickets.size();
         for (Ticket ticket : allTickets) {
             switch (ticket.getType()) {
-                case VIP:
-                    countVIP++;
-                case HALF:
-                    countHalf++;
-                case NORMAL:
-                    countNormal++;
+                case VIP -> countVIP++;
+                case HALF -> countHalf++;
+                case NORMAL -> countNormal++;
             }
         }
-        double vipRatio = countVIP / ticketTotal;
-        double halfRatio = countHalf / ticketTotal;
-        double normalRatio = countNormal / ticketTotal;
+        double vipRatio = (double) countVIP / ticketTotal;
+        double halfRatio = (double) countHalf / ticketTotal;
+        double normalRatio = (double) countNormal / ticketTotal;
 
         assertTrue(vipRatio >= 0.2 && vipRatio <= 0.3);
         assertTrue(halfRatio <= 0.1);
-        assertEquals((vipRatio + halfRatio - 1), normalRatio);
+        double expectedNormalRatio = 1 - (vipRatio + halfRatio);
+        assertEquals(expectedNormalRatio, normalRatio);
     }
 }
