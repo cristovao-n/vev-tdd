@@ -17,6 +17,7 @@ class ShowTest {
 
     private Ticket makeTicket(TicketType type) {
         return new Ticket.Builder()
+                .id(0L)
                 .type(type)
                 .build();
     }

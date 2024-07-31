@@ -13,11 +13,10 @@ public class TicketLotTest {
 
     private TicketLot ticketLot;
 
-    private Ticket makeTicket(Long id, TicketType type, TicketStatus status) {
+    private Ticket makeTicket(Long id, TicketType type) {
         return new Ticket.Builder()
                 .id(id)
                 .type(type)
-                .status(status)
                 .build();
     }
 
@@ -33,9 +32,9 @@ public class TicketLotTest {
     @BeforeEach
     void init() {
         List<Ticket> tickets = new ArrayList<>();
-        tickets.add(this.makeTicket(0L, TicketType.VIP, TicketStatus.NOT_SOLD));
-        tickets.add(this.makeTicket(0L, TicketType.HALF, TicketStatus.NOT_SOLD));
-        tickets.add(this.makeTicket(0L, TicketType.NORMAL, TicketStatus.NOT_SOLD));
+        tickets.add(this.makeTicket(0L, TicketType.VIP));
+        tickets.add(this.makeTicket(0L, TicketType.HALF));
+        tickets.add(this.makeTicket(0L, TicketType.NORMAL));
         this.ticketLot = this.makeTicketLot(0L, tickets, 0, 10);
     }
 
