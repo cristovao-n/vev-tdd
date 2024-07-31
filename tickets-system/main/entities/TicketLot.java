@@ -26,11 +26,11 @@ public class TicketLot {
     }
 
     public Double getVIPTicketPrice() {
-        return 2 * this.normalTicketPrice * this.discount;
+        return 2 * this.normalTicketPrice * (1 - this.discount);
     }
 
     public Double getNormalTicketPrice() {
-        return this.normalTicketPrice * discount;
+        return this.normalTicketPrice * (1 - this.discount);
     }
 
     public Double getHalfTicketPrice() {
