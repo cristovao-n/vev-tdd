@@ -33,9 +33,9 @@ public class TicketLotTest {
     @BeforeEach
     void init() {
         List<Ticket> tickets = new ArrayList<>();
-        tickets.add(this.makeTicket(0, TicketType.VIP, TicketStatus.NOT_SOLD));
-        tickets.add(this.makeTicket(0, TicketType.HALF, TicketStatus.NOT_SOLD));
-        tickets.add(this.makeTicket(0, TicketType.NORMAL, TicketStatus.NOT_SOLD));
+        tickets.add(this.makeTicket(0L, TicketType.VIP, TicketStatus.NOT_SOLD));
+        tickets.add(this.makeTicket(0L, TicketType.HALF, TicketStatus.NOT_SOLD));
+        tickets.add(this.makeTicket(0L, TicketType.NORMAL, TicketStatus.NOT_SOLD));
         this.ticketLot = this.makeEmptyTicketLot(0L, tickets, 0.25, 10);
     }
 
