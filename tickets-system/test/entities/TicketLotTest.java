@@ -36,7 +36,7 @@ public class TicketLotTest {
         tickets.add(this.makeTicket(0L, TicketType.VIP, TicketStatus.NOT_SOLD));
         tickets.add(this.makeTicket(0L, TicketType.HALF, TicketStatus.NOT_SOLD));
         tickets.add(this.makeTicket(0L, TicketType.NORMAL, TicketStatus.NOT_SOLD));
-        this.ticketLot = this.makeTicketLot(0L, tickets, 0.25, 10);
+        this.ticketLot = this.makeTicketLot(0L, tickets, 0, 10);
     }
 
     @Test
@@ -61,5 +61,12 @@ public class TicketLotTest {
     void testDiscountLessThan25() {
         TicketLot test = this.makeTicketLot(0L, Collections.emptyList(), 0.24, 10);
         assertEquals(0.24, test.getDiscount());
+    }
+
+    void testDiscountIsApplied() {
+        TicketLot test = this.makeTicketLot(0L, Collections.emptyList(), 0.25, 10);
+        assertEquals(15, test.getVIPTicketPrice());
+        assertEquals(7.5, test.getNormalTicketPrice());
+        assertEquals(5, test.getHalfTicketPrice());
     }
 }
