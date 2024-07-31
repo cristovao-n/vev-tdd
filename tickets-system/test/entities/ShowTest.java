@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShowTest {
 
     private Show show;
-    private Ticket ticket;
     private TicketLot ticketLot;
 
     private Ticket makeTicket(TicketType type) {
