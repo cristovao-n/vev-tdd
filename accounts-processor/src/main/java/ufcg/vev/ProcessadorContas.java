@@ -28,6 +28,10 @@ public class ProcessadorContas {
         return this.fatura.getValorPago();
     }
 
+    public String getStatusFatura() {
+        return this.fatura.getStatus();
+    }
+
     public void pagarConta(String codigoConta, TipoPagamento tipoPagamento, Date dataPagamento) {
         Optional<Conta> contaOptional = this.getContas().stream().filter(conta -> conta.getCodigo().equals(codigoConta)).findFirst();
 
@@ -51,9 +55,11 @@ public class ProcessadorContas {
 
             if (dataPagamento.after(conta.getData())) {
                 fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
+                verificaSeFaturaFoiPaga();
                 return;
             }
             fatura.addValorPagamento(conta.getValor());
+            verificaSeFaturaFoiPaga();
             return;
         }
 
@@ -64,11 +70,19 @@ public class ProcessadorContas {
 
             if (dataPagamento.before(faturaMenos15Dias)) {
                 fatura.addValorPagamento(conta.getValor());
+                verificaSeFaturaFoiPaga();
             }
             return;
         }
         fatura.addValorPagamento(conta.getValor());
+        verificaSeFaturaFoiPaga();
 
+    }
+
+    private void verificaSeFaturaFoiPaga() {
+        if (this.fatura.getValorPago().compareTo(this.fatura.getValor()) >= 0) {
+            this.fatura.pagarFatura();
+        }
     }
 
 }
