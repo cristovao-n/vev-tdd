@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import entities.Show.Report;
+
 import static entities.EntityMaker.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -132,13 +134,15 @@ class ShowTest {
                             newShow.getInfrastructureExpenses() * 1.15 -
                             newShow.getFee();
         ShowStatus status = null;
-        switch (showIncome) {
-            case showIncome > 0 -> status = ShowStatus.PROFIT;
-            case showIncome == 0 -> status = ShowStatus.STABLE;
-            case showIncome < 0 -> status = ShowStatus.LOSS;
+        if (showIncome > 0) {
+            status = ShowStatus.PROFIT;
+        } else if (showIncome == 0) {
+            status = ShowStatus.STABLE;
+        } else if (showIncome < 0) {
+            status = ShowStatus.LOSS;
         }
 
-        Report report = this.show.generateReport();
+        Report report = newShow.generateReport();
         assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
         assertEquals(halfTicketsSold, report.getHalfTicketsSold());
         assertEquals(normalTicketsSold, report.getNormalTicketsSold());
@@ -166,16 +170,18 @@ class ShowTest {
         double showIncome = VIPTicketsSold * ticketLot.getVIPTicketPrice() +
                 halfTicketsSold * ticketLot.getHalfTicketPrice() +
                 normalTicketsSold * ticketLot.getNormalTicketPrice() -
-                newShow.getInfrasctructureExpenses() -
+                newShow.getInfrastructureExpenses() -
                 newShow.getFee();
         ShowStatus status = null;
-        switch (showIncome) {
-            case showIncome > 0 -> status = ShowStatus.PROFIT;
-            case showIncome == 0 -> status = ShowStatus.STABLE;
-            case showIncome < 0 -> status = ShowStatus.LOSS;
+        if (showIncome > 0) {
+            status = ShowStatus.PROFIT;
+        } else if (showIncome == 0) {
+            status = ShowStatus.STABLE;
+        } else if (showIncome < 0) {
+            status = ShowStatus.LOSS;
         }
 
-        Report report = this.show.generateReport();
+        Report report = newShow.generateReport();
         assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
         assertEquals(halfTicketsSold, report.getHalfTicketsSold());
         assertEquals(normalTicketsSold, report.getNormalTicketsSold());
