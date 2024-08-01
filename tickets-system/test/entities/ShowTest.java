@@ -143,7 +143,7 @@ class ShowTest {
         }
 
         Report report = newShow.generateReport();
-        assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
+        assertEquals(VIPTicketsSold, report.getVipTicketsSold());
         assertEquals(halfTicketsSold, report.getHalfTicketsSold());
         assertEquals(normalTicketsSold, report.getNormalTicketsSold());
         assertEquals(showIncome, report.getShowIncome());
@@ -182,7 +182,7 @@ class ShowTest {
         }
 
         Report report = newShow.generateReport();
-        assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
+        assertEquals(VIPTicketsSold, report.getVipTicketsSold());
         assertEquals(halfTicketsSold, report.getHalfTicketsSold());
         assertEquals(normalTicketsSold, report.getNormalTicketsSold());
         assertEquals(showIncome, report.getShowIncome());

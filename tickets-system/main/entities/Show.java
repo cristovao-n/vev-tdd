@@ -38,7 +38,7 @@ public class Show {
     }
 
     public Report generateReport() {
-        int VIPTicketsSold = 0;
+        int vipTicketsSold = 0;
         int halfTicketsSold = 0;
         int normalTicketsSold = 0;
         double ticketsTotalPrice = 0;
@@ -49,7 +49,7 @@ public class Show {
                     switch (ticket.getType()) {
                         case VIP -> {
                             ticketsTotalPrice += ticketLot.getVIPTicketPrice();
-                            VIPTicketsSold++;
+                            vipTicketsSold++;
                         }
                         case HALF -> {
                             ticketsTotalPrice += ticketLot.getHalfTicketPrice();
@@ -81,7 +81,7 @@ public class Show {
             status = ShowStatus.LOSS;
         }
         return new Report(
-                VIPTicketsSold,
+                vipTicketsSold,
                 halfTicketsSold,
                 normalTicketsSold,
                 showIncome,
@@ -90,27 +90,27 @@ public class Show {
     }
 
     public class Report {
-        private int VIPTicketsSold;
+        private int vipTicketsSold;
         private int halfTicketsSold;
         private int normalTicketsSold;
         private double showIncome;
         private ShowStatus showStatus;
 
-        public Report(int VIPTicketsSold,
+        public Report(int vipTicketsSold,
                       int halfTicketsSold,
                       int normalTicketsSold,
                       double showIncome,
                       ShowStatus showStatus
         ) {
-            this.VIPTicketsSold = VIPTicketsSold;
+            this.vipTicketsSold = vipTicketsSold;
             this.halfTicketsSold = halfTicketsSold;
             this.normalTicketsSold = normalTicketsSold;
             this.showIncome = showIncome;
             this.showStatus = showStatus;
         }
 
-        public int getVIPTicketsSold() {
-            return this.VIPTicketsSold;
+        public int getVipTicketsSold() {
+            return this.vipTicketsSold;
         }
 
         public int getHalfTicketsSold() {
