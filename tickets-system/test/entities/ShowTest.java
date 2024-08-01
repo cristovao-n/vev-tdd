@@ -108,4 +108,78 @@ class ShowTest {
         double expectedNormalRatio = 1 - (vipRatio + halfRatio);
         assertEquals(expectedNormalRatio, normalRatio);
     }
+
+    @Test
+    void testSpecialDateReportCreation() {
+        List<Ticket> ticketList = this.makeProportionalTicketList(100);
+        ticketList.forEach(Ticket::sell);
+        TicketLot newTicketLot = makeTicketLot(0L, ticketList, 0.25, 10D);
+        Show newShow = makeShow(
+                LocalDate.now(),
+                "artist",
+                0.0,
+                0.0,
+                Collections.singletonList(newTicketLot),
+                true
+        );
+
+        int VIPTicketsSold = 30;
+        int halfTicketsSold = 10;
+        int normalTicketsSold = 60;
+        double showIncome = VIPTicketsSold * ticketLot.getVIPTicketPrice() +
+                            halfTicketsSold * ticketLot.getHalfTicketPrice() +
+                            normalTicketsSold * ticketLot.getNormalTicketPrice() -
+                            newShow.getInfrastructureExpenses() * 1.15 -
+                            newShow.getFee();
+        ShowStatus status = null;
+        switch (showIncome) {
+            case showIncome > 0 -> status = ShowStatus.PROFIT;
+            case showIncome == 0 -> status = ShowStatus.STABLE;
+            case showIncome < 0 -> status = ShowStatus.LOSS;
+        }
+
+        Report report = this.show.generateReport();
+        assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
+        assertEquals(halfTicketsSold, report.getHalfTicketsSold());
+        assertEquals(normalTicketsSold, report.getNormalTicketsSold());
+        assertEquals(showIncome, report.getShowIncome());
+        assertEquals(status, report.getShowStatus());
+    }
+
+    @Test
+    void testNormalDateReportCreation() {
+        List<Ticket> ticketList = this.makeProportionalTicketList(100);
+        ticketList.forEach(Ticket::sell);
+        TicketLot newTicketLot = makeTicketLot(0L, ticketList, 0.25, 10D);
+        Show newShow = makeShow(
+                LocalDate.now(),
+                "artist",
+                0.0,
+                0.0,
+                Collections.singletonList(newTicketLot),
+                false
+        );
+
+        int VIPTicketsSold = 30;
+        int halfTicketsSold = 10;
+        int normalTicketsSold = 60;
+        double showIncome = VIPTicketsSold * ticketLot.getVIPTicketPrice() +
+                halfTicketsSold * ticketLot.getHalfTicketPrice() +
+                normalTicketsSold * ticketLot.getNormalTicketPrice() -
+                newShow.getInfrasctructureExpenses() -
+                newShow.getFee();
+        ShowStatus status = null;
+        switch (showIncome) {
+            case showIncome > 0 -> status = ShowStatus.PROFIT;
+            case showIncome == 0 -> status = ShowStatus.STABLE;
+            case showIncome < 0 -> status = ShowStatus.LOSS;
+        }
+
+        Report report = this.show.generateReport();
+        assertEquals(VIPTicketsSold, report.getVIPTicketsSold());
+        assertEquals(halfTicketsSold, report.getHalfTicketsSold());
+        assertEquals(normalTicketsSold, report.getNormalTicketsSold());
+        assertEquals(showIncome, report.getShowIncome());
+        assertEquals(status, report.getShowStatus());
+    }
 }
