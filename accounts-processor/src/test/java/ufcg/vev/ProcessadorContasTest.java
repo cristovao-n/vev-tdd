@@ -127,4 +127,14 @@ class ProcessadorContasTest {
         assertEquals(processadorContas.getStatusFatura(), "PAGA");
 
     }
+
+    @Test
+    void testFaturaNaoPaga() {
+        ProcessadorContas processadorContas = new ProcessadorContas(fatura1);
+        processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
+        processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
+
+        assertEquals(processadorContas.getStatusFatura(), "PENDENTE");
+
+    }
 }
