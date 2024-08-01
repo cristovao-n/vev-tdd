@@ -44,6 +44,13 @@ class ProcessadorContasTest {
             )));
 
     @Test
+    void testContaInexistente() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("999999", TipoPagamento.BOLETO));
+        assertEquals("Codigo de conta invalido ou conta com esse codigo inexistente", e.getMessage());
+    }
+
+    @Test
     void testBoletoMenorQue1Centavo() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
         Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("1", TipoPagamento.BOLETO));
@@ -56,4 +63,5 @@ class ProcessadorContasTest {
         Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("2", TipoPagamento.BOLETO));
         assertEquals("Valor da conta deve ser menor que 5000 para ser paga com boleto", e.getMessage());
     }
+
 }
