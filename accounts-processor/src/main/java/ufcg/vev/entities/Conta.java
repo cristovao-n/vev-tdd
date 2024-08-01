@@ -30,4 +30,8 @@ public class Conta {
         return valor;
     }
 
+    public Date getData() {
+        return data;
+    }
+
 }

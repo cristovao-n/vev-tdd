@@ -47,21 +47,21 @@ class ProcessadorContasTest {
     @Test
     void testContaInexistente() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("999999", TipoPagamento.BOLETO));
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("999999", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 6)));
         assertEquals("Codigo de conta invalido ou conta com esse codigo inexistente", e.getMessage());
     }
 
     @Test
     void testBoletoMenorQue1Centavo() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("1", TipoPagamento.BOLETO));
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 6)));
         assertEquals("Valor da conta deve ser maior que 0.01 para ser paga com boleto", e.getMessage());
     }
 
     @Test
     void testBoletoMaiorQue5000() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("2", TipoPagamento.BOLETO));
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 6)));
         assertEquals("Valor da conta deve ser menor que 5000 para ser paga com boleto", e.getMessage());
     }
 
@@ -69,7 +69,7 @@ class ProcessadorContasTest {
     void testBoletoAtrasado() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
         processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 21));
-        assertEquals(processadorContas.getValorPagamentos(), 100 * 1.1);
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(1.1)));
 
     }
 
