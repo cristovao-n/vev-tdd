@@ -5,6 +5,7 @@ import ufcg.vev.entities.Fatura;
 import ufcg.vev.enums.TipoPagamento;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class ProcessadorContas {
         return fatura.getContas();
     }
 
-    public void pagar(String codigoConta, TipoPagamento tipoPagamento) {
+    public void pagarConta(String codigoConta, TipoPagamento tipoPagamento) {
         Optional<Conta> contaOptional = this.getContas().stream().filter(conta -> conta.getCodigo().equals(codigoConta)).findFirst();
 
         if (contaOptional.isEmpty()) {
