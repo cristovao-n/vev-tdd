@@ -10,11 +10,15 @@ public class Fatura {
     private String nomeCliente;
 
     private List<Conta> contas;
+    private BigDecimal valor = BigDecimal.ZERO;
+
+    private String status = "PENDENTE";
 
     public Fatura(Date data, String nomeCliente, List<Conta> contas) {
         this.data = data;
         this.nomeCliente = nomeCliente;
         this.contas = contas;
+        this.valor = contas.stream().map(Conta::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public List<Conta> getContas() {
@@ -29,8 +33,20 @@ public class Fatura {
         return this.valorPago;
     }
 
+    public BigDecimal getValor() {
+        return this.valor;
+    }
+
     public Date getData() {
         return data;
+    }
+
+    public void pagarFatura() {
+        this.status = "PAGA";
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 
 }
