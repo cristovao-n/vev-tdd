@@ -33,7 +33,9 @@ public class ProcessadorContas {
                 throw new RuntimeException("Valor da conta deve ser maior que 0.01 para ser paga com boleto");
             }
 
-
+            if (conta.getValor().compareTo(BigDecimal.valueOf(5000)) > 0) {
+                throw new RuntimeException("Valor da conta deve ser menor que 5000 para ser paga com boleto");
+            }
 
         }
 
