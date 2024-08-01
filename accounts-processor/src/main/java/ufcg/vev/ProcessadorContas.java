@@ -53,9 +53,9 @@ public class ProcessadorContas {
         if (tipoPagamento.equals(TipoPagamento.CARTAO_CREDITO)) {
             LocalDateTime ldt = LocalDateTime.ofInstant(fatura.getData().toInstant(), ZoneId.systemDefault());
             LocalDateTime minusDays = ldt.minusDays(15);
-            Date out = Date.from(minusDays.atZone(ZoneId.systemDefault()).toInstant());
+            Date faturaMenos15Dias = Date.from(minusDays.atZone(ZoneId.systemDefault()).toInstant());
 
-            if (dataPagamento.before(out)) {
+            if (dataPagamento.before(faturaMenos15Dias)) {
                 fatura.addValorPagamento(conta.getValor());
             }
         }
