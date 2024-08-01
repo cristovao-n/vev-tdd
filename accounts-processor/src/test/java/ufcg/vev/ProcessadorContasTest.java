@@ -35,33 +35,36 @@ class ProcessadorContasTest {
                     new Conta("2", new Date(2023, Calendar.FEBRUARY, 17), BigDecimal.valueOf(800))
             )));
 
-    private final Fatura faturaContasInvalidasBoleto = new Fatura(
+    private final Fatura faturaBoleto = new Fatura(
             new Date(2023, Calendar.FEBRUARY, 20),
             "Everton",
             new ArrayList<>(List.of(
                     new Conta("1", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(0.001)),
-                    new Conta("2", new Date(2023, Calendar.FEBRUARY, 17), BigDecimal.valueOf(5001))
+                    new Conta("2", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(5001)),
+                    new Conta("2", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(100))
             )));
 
     @Test
     void testContaInexistente() {
-        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("999999", TipoPagamento.BOLETO));
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("999999", TipoPagamento.BOLETO));
         assertEquals("Codigo de conta invalido ou conta com esse codigo inexistente", e.getMessage());
     }
 
     @Test
     void testBoletoMenorQue1Centavo() {
-        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("1", TipoPagamento.BOLETO));
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("1", TipoPagamento.BOLETO));
         assertEquals("Valor da conta deve ser maior que 0.01 para ser paga com boleto", e.getMessage());
     }
 
     @Test
     void testBoletoMaiorQue5000() {
-        ProcessadorContas processadorContas = new ProcessadorContas(faturaContasInvalidasBoleto);
-        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagar("2", TipoPagamento.BOLETO));
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
+        Exception e = assertThrows(RuntimeException.class, () -> processadorContas.pagarConta("2", TipoPagamento.BOLETO));
         assertEquals("Valor da conta deve ser menor que 5000 para ser paga com boleto", e.getMessage());
     }
+
+
 
 }
