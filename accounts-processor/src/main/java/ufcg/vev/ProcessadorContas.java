@@ -5,6 +5,9 @@ import ufcg.vev.entities.Fatura;
 import ufcg.vev.enums.TipoPagamento;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +47,16 @@ public class ProcessadorContas {
 
             if (dataPagamento.after(conta.getData())) {
                 fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
+            }
+        }
+
+        if (tipoPagamento.equals(TipoPagamento.CARTAO_CREDITO)) {
+            LocalDateTime ldt = LocalDateTime.ofInstant(fatura.getData().toInstant(), ZoneId.systemDefault());
+            LocalDateTime minusDays = ldt.minusDays(15);
+            Date out = Date.from(minusDays.atZone(ZoneId.systemDefault()).toInstant());
+
+            if (dataPagamento.before(out)) {
+                fatura.addValorPagamento(conta.getValor());
             }
         }
 

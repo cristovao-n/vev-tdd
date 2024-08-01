@@ -29,4 +29,8 @@ public class Fatura {
         return this.valorPago;
     }
 
+    public Date getData() {
+        return data;
+    }
+
 }
