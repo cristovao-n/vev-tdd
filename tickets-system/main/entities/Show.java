@@ -64,8 +64,9 @@ public class Show {
             }
         }
 
+        double EXTRA_INFRASCTRUCTURE_PERCENTAGE = 0.15;
         double infrastructureExpenses = isInSpecialDate ?
-                getInfrastructureExpenses() * 1.15 :
+                getInfrastructureExpenses() * (1 + EXTRA_INFRASCTRUCTURE_PERCENTAGE) :
                 getInfrastructureExpenses();
 
         double showIncome = ticketsTotalPrice -
@@ -77,7 +78,7 @@ public class Show {
             status = ShowStatus.PROFIT;
         } else if (showIncome == 0) {
             status = ShowStatus.STABLE;
-        } else if (showIncome < 0) {
+        } else {
             status = ShowStatus.LOSS;
         }
         return new Report(

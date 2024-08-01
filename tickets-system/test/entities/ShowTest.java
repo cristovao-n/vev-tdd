@@ -128,17 +128,18 @@ class ShowTest {
         int VIPTicketsSold = 30;
         int halfTicketsSold = 10;
         int normalTicketsSold = 60;
+        double EXTRA_INFRASCTRUCTURE_PERCENTAGE = 0.15;
         double showIncome = VIPTicketsSold * ticketLot.getVIPTicketPrice() +
                             halfTicketsSold * ticketLot.getHalfTicketPrice() +
                             normalTicketsSold * ticketLot.getNormalTicketPrice() -
-                            newShow.getInfrastructureExpenses() * 1.15 -
+                            newShow.getInfrastructureExpenses() * (1 + EXTRA_INFRASCTRUCTURE_PERCENTAGE) -
                             newShow.getFee();
         ShowStatus status = null;
         if (showIncome > 0) {
             status = ShowStatus.PROFIT;
         } else if (showIncome == 0) {
             status = ShowStatus.STABLE;
-        } else if (showIncome < 0) {
+        } else {
             status = ShowStatus.LOSS;
         }
 
