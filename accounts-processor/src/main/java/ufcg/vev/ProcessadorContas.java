@@ -23,9 +23,7 @@ public class ProcessadorContas {
     public void pagar(String codigoConta, TipoPagamento tipoPagamento) {
         Optional<Conta> contaOptional = this.getContas().stream().filter(conta -> conta.getCodigo().equals(codigoConta)).findFirst();
 
-        if (contaOptional.isEmpty()) {
-            throw new RuntimeException("Codigo de conta invalido ou conta com esse codigo inexistente");
-        }
+
         Conta conta = contaOptional.get();
 
         if (tipoPagamento.equals(TipoPagamento.BOLETO)) {
