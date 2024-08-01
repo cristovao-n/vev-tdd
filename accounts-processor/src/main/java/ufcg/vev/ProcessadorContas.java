@@ -45,7 +45,6 @@ public class ProcessadorContas {
             if (dataPagamento.after(conta.getData())) {
                 fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
             }
-
         }
 
     }

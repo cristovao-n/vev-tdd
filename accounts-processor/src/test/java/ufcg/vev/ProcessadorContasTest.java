@@ -44,6 +44,14 @@ class ProcessadorContasTest {
                     new Conta("3", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(100))
             )));
 
+    private final Fatura faturaCartao = new Fatura(
+            new Date(2023, Calendar.FEBRUARY, 20),
+            "Everton",
+            new ArrayList<>(List.of(
+                    new Conta("1", new Date(2023, Calendar.FEBRUARY, 4), BigDecimal.valueOf(100)),
+                    new Conta("2", new Date(2023, Calendar.FEBRUARY, 10), BigDecimal.valueOf(100))
+            )));
+
     @Test
     void testContaInexistente() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
@@ -71,6 +79,13 @@ class ProcessadorContasTest {
         processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 21));
         assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(1.1)));
 
+    }
+
+    @Test
+    void testPagamentoCartaoConsiderado() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaCartao);
+        processadorContas.pagarConta("1", TipoPagamento.CARTAO_CREDITO, new Date(2023, Calendar.FEBRUARY, 4));
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100));
     }
 
 
