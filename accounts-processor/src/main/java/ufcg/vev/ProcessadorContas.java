@@ -36,7 +36,9 @@ public class ProcessadorContas {
         }
         Conta conta = contaOptional.get();
 
-
+        if (conta.getData().after(fatura.getData())) {
+            return;
+        }
 
         if (tipoPagamento.equals(TipoPagamento.BOLETO)) {
             if (conta.getValor().compareTo(BigDecimal.valueOf(0.01)) < 0) {
@@ -49,9 +51,10 @@ public class ProcessadorContas {
 
             if (dataPagamento.after(conta.getData())) {
                 fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
-            } else {
-                fatura.addValorPagamento(conta.getValor());
+                return;
             }
+            fatura.addValorPagamento(conta.getValor());
+            return;
         }
 
         if (tipoPagamento.equals(TipoPagamento.CARTAO_CREDITO)) {
@@ -62,7 +65,9 @@ public class ProcessadorContas {
             if (dataPagamento.before(faturaMenos15Dias)) {
                 fatura.addValorPagamento(conta.getValor());
             }
+            return;
         }
+        fatura.addValorPagamento(conta.getValor());
 
     }
 
