@@ -41,7 +41,7 @@ class ProcessadorContasTest {
             new ArrayList<>(List.of(
                     new Conta("1", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(0.001)),
                     new Conta("2", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(5001)),
-                    new Conta("2", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(100))
+                    new Conta("3", new Date(2023, Calendar.FEBRUARY, 6), BigDecimal.valueOf(100))
             )));
 
     @Test
@@ -65,6 +65,13 @@ class ProcessadorContasTest {
         assertEquals("Valor da conta deve ser menor que 5000 para ser paga com boleto", e.getMessage());
     }
 
+    @Test
+    void testBoletoAtrasado() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
+        processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023, Calendar.FEBRUARY, 21));
+        assertEquals(processadorContas.getValorPagamentos(), 100 * 1.1);
+
+    }
 
 
 }
