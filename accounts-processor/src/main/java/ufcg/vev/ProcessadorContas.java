@@ -21,7 +21,11 @@ public class ProcessadorContas {
         return fatura.getContas();
     }
 
-    public void pagarConta(String codigoConta, TipoPagamento tipoPagamento) {
+    public BigDecimal getValorPago() {
+        return this.fatura.getValorPago();
+    }
+
+    public void pagarConta(String codigoConta, TipoPagamento tipoPagamento, Date dataPagamento) {
         Optional<Conta> contaOptional = this.getContas().stream().filter(conta -> conta.getCodigo().equals(codigoConta)).findFirst();
 
         if (contaOptional.isEmpty()) {
@@ -36,6 +40,10 @@ public class ProcessadorContas {
 
             if (conta.getValor().compareTo(BigDecimal.valueOf(5000)) > 0) {
                 throw new RuntimeException("Valor da conta deve ser menor que 5000 para ser paga com boleto");
+            }
+
+            if (dataPagamento.after(conta.getData())) {
+                fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
             }
 
         }
