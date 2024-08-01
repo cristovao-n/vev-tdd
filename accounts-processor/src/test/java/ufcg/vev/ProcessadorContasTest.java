@@ -52,6 +52,15 @@ class ProcessadorContasTest {
                     new Conta("2", new Date(2023 - 1900, Calendar.FEBRUARY, 10), BigDecimal.valueOf(100))
             )));
 
+    private final Fatura faturaContaAposFatura = new Fatura(
+            new Date(2023 - 1900, Calendar.FEBRUARY, 20),
+            "Everton",
+            new ArrayList<>(List.of(
+                    new Conta("1", new Date(2023 - 1900, Calendar.FEBRUARY, 24), BigDecimal.valueOf(100))
+            )));
+
+
+
     @Test
     void testContaInexistente() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
@@ -92,6 +101,19 @@ class ProcessadorContasTest {
     void testPagamentoCartaoDesconsiderado() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaCartao);
         processadorContas.pagarConta("2", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+    }
+
+    @Test
+    void testContaAposFatura() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaContaAposFatura);
+        processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+
+        processadorContas.pagarConta("1", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+
+        processadorContas.pagarConta("1", TipoPagamento.TRANSFERENCIA_BANCARIA, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
         assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
     }
 

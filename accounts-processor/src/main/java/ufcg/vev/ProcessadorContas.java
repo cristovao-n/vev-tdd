@@ -36,6 +36,8 @@ public class ProcessadorContas {
         }
         Conta conta = contaOptional.get();
 
+
+
         if (tipoPagamento.equals(TipoPagamento.BOLETO)) {
             if (conta.getValor().compareTo(BigDecimal.valueOf(0.01)) < 0) {
                 throw new RuntimeException("Valor da conta deve ser maior que 0.01 para ser paga com boleto");
@@ -47,6 +49,8 @@ public class ProcessadorContas {
 
             if (dataPagamento.after(conta.getData())) {
                 fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
+            } else {
+                fatura.addValorPagamento(conta.getValor());
             }
         }
 
