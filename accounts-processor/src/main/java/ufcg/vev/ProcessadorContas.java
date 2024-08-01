@@ -2,10 +2,10 @@ package ufcg.vev;
 
 import ufcg.vev.entities.Conta;
 import ufcg.vev.entities.Fatura;
+import ufcg.vev.enums.FaturaStatus;
 import ufcg.vev.enums.TipoPagamento;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -28,7 +28,7 @@ public class ProcessadorContas {
         return this.fatura.getValorPago();
     }
 
-    public String getStatusFatura() {
+    public FaturaStatus getStatusFatura() {
         return this.fatura.getStatus();
     }
 

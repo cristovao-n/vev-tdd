@@ -3,6 +3,7 @@ package ufcg.vev;
 import org.junit.jupiter.api.Test;
 import ufcg.vev.entities.Conta;
 import ufcg.vev.entities.Fatura;
+import ufcg.vev.enums.FaturaStatus;
 import ufcg.vev.enums.TipoPagamento;
 
 import java.math.BigDecimal;
@@ -124,7 +125,7 @@ class ProcessadorContasTest {
         processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
         processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
 
-        assertEquals(processadorContas.getStatusFatura(), "PAGA");
+        assertEquals(processadorContas.getStatusFatura(), FaturaStatus.PAGA);
 
     }
 
@@ -134,7 +135,7 @@ class ProcessadorContasTest {
         processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
         processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
 
-        assertEquals(processadorContas.getStatusFatura(), "PENDENTE");
+        assertEquals(processadorContas.getStatusFatura(), FaturaStatus.PENDENTE);
 
     }
 }

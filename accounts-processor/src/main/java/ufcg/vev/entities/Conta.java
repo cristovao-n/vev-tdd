@@ -18,10 +18,6 @@ public class Conta {
         this.valor = valor;
     }
 
-    public void pagar(TipoPagamento tipoPagamento) {
-
-    }
-
     public String getCodigo() {
         return codigo;
     }

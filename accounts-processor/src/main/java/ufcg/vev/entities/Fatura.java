@@ -1,5 +1,7 @@
 package ufcg.vev.entities;
 
+import ufcg.vev.enums.FaturaStatus;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +14,7 @@ public class Fatura {
     private List<Conta> contas;
     private BigDecimal valor = BigDecimal.ZERO;
 
-    private String status = "PENDENTE";
+    private FaturaStatus status = FaturaStatus.PENDENTE;
 
     public Fatura(Date data, String nomeCliente, List<Conta> contas) {
         this.data = data;
@@ -26,6 +28,9 @@ public class Fatura {
     }
 
     public void addValorPagamento(BigDecimal valor) {
+        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Valor nao pode ser negativo");
+        }
         this.valorPago = this.valorPago.add(valor);
     }
 
@@ -42,10 +47,10 @@ public class Fatura {
     }
 
     public void pagarFatura() {
-        this.status = "PAGA";
+        this.status = FaturaStatus.PAGA;
     }
 
-    public String getStatus() {
+    public FaturaStatus getStatus() {
         return this.status;
     }
 
