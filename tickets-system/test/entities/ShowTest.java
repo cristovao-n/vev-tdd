@@ -20,15 +20,26 @@ class ShowTest {
         return makeTicketLot(id, Collections.emptyList(), discount, normalTicketPrice);
     }
 
+    private List<Ticket> makeProportionalTicketList(int quantity) {
+        List<Ticket> tickets = new ArrayList<>();
+        int VIPQuantity = (int) (quantity * 0.3);
+        int halfQuantity = (int) (quantity * 0.1);
+        int normalQuantity = quantity - (VIPQuantity + halfQuantity);
+
+        for (int i = 0; i < VIPQuantity; i++) {
+            tickets.add(makeTicket((long) i, TicketType.VIP));
+        }
+        for (int i = 0; i < halfQuantity; i++) {
+            tickets.add(makeTicket((long) i + VIPQuantity, TicketType.HALF));
+        }
+        for (int i = 0; i < normalQuantity; i++) {
+            tickets.add(makeTicket((long) i + VIPQuantity + halfQuantity, TicketType.NORMAL));
+        }
+        return tickets;
+    }
+
     private TicketLot makeProportionalTicketLots(Long id, Double discount, Double normalTicketPrice) {
-        List<Ticket> tenTickets = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            tenTickets.add(makeTicket((long) i, TicketType.VIP));
-        }
-        tenTickets.add(makeTicket(3L, TicketType.HALF));
-        for (int i = 0; i < 6; i++) {
-            tenTickets.add(makeTicket((long) (i + 4), TicketType.NORMAL));
-        }
+        List<Ticket> tenTickets = this.makeProportionalTicketList(10);
         return makeTicketLot(id, tenTickets, discount, normalTicketPrice);
     }
 
@@ -65,7 +76,7 @@ class ShowTest {
         double normalRatio = (double) countNormal / ticketTotal;
 
         assertTrue(vipRatio >= 0.2 && vipRatio <= 0.3);
-        assertTrue(halfRatio <= 0.1);
+        assertEquals(0.1, halfRatio);
         double expectedNormalRatio = 1 - (vipRatio + halfRatio);
         assertEquals(expectedNormalRatio, normalRatio);
     }
@@ -93,7 +104,7 @@ class ShowTest {
         double normalRatio = (double) countNormal / ticketTotal;
 
         assertFalse(vipRatio >= 0.2 && vipRatio <= 0.3);
-        assertFalse(halfRatio <= 0.1);
+        assertNotEquals(0.1, halfRatio);
         double expectedNormalRatio = 1 - (vipRatio + halfRatio);
         assertEquals(expectedNormalRatio, normalRatio);
     }
