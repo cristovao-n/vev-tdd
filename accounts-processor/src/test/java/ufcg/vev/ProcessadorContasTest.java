@@ -88,5 +88,12 @@ class ProcessadorContasTest {
         assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100));
     }
 
+    @Test
+    void testPagamentoCartaoDesconsiderado() {
+        ProcessadorContas processadorContas = new ProcessadorContas(faturaCartao);
+        processadorContas.pagarConta("2", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
+        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+    }
+
 
 }
