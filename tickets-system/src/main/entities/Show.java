@@ -37,6 +37,10 @@ public class Show {
         this.ticketLots = ticketLots;
     }
 
+    public void setSpecialDate(boolean isInSpecialDate) {
+        this.isInSpecialDate = isInSpecialDate;
+    }
+
     public Report generateReport() {
         int vipTicketsSold = 0;
         int halfTicketsSold = 0;
