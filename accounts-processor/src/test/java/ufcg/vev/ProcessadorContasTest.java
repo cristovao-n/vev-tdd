@@ -86,8 +86,8 @@ class ProcessadorContasTest {
     @Test
     void testBoletoAtrasado() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaBoleto);
-        processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 21));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(1.1)));
+        processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 19));
+        assertEquals(BigDecimal.valueOf(100).multiply(BigDecimal.valueOf(1.1)), processadorContas.getValorPago());
 
     }
 
@@ -95,37 +95,37 @@ class ProcessadorContasTest {
     void testPagamentoCartaoConsiderado() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaCartao);
         processadorContas.pagarConta("1", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 4));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(100));
+        assertEquals(BigDecimal.valueOf(100), processadorContas.getValorPago());
     }
 
     @Test
     void testPagamentoCartaoDesconsiderado() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaCartao);
         processadorContas.pagarConta("2", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+        assertEquals(BigDecimal.valueOf(0), processadorContas.getValorPago());
     }
 
     @Test
     void testContaAposFatura() {
         ProcessadorContas processadorContas = new ProcessadorContas(faturaContaAposFatura);
         processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+        assertEquals(BigDecimal.valueOf(0), processadorContas.getValorPago());
 
         processadorContas.pagarConta("1", TipoPagamento.CARTAO_CREDITO, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+        assertEquals(BigDecimal.valueOf(0), processadorContas.getValorPago());
 
         processadorContas.pagarConta("1", TipoPagamento.TRANSFERENCIA_BANCARIA, new Date(2023 - 1900, Calendar.FEBRUARY, 10));
-        assertEquals(processadorContas.getValorPago(), BigDecimal.valueOf(0));
+        assertEquals(BigDecimal.valueOf(0), processadorContas.getValorPago());
     }
 
     @Test
     void testFaturaPaga() {
         ProcessadorContas processadorContas = new ProcessadorContas(fatura1);
-        processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
-        processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
-        processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
+        processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 19));
+        processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 19));
+        processadorContas.pagarConta("3", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 19));
 
-        assertEquals(processadorContas.getStatusFatura(), FaturaStatus.PAGA);
+        assertEquals(FaturaStatus.PAGA, processadorContas.getStatusFatura());
 
     }
 
@@ -135,7 +135,7 @@ class ProcessadorContasTest {
         processadorContas.pagarConta("1", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
         processadorContas.pagarConta("2", TipoPagamento.BOLETO, new Date(2023 - 1900, Calendar.FEBRUARY, 20));
 
-        assertEquals(processadorContas.getStatusFatura(), FaturaStatus.PENDENTE);
+        assertEquals(FaturaStatus.PENDENTE, processadorContas.getStatusFatura());
 
     }
 }
