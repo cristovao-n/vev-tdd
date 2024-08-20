@@ -53,12 +53,14 @@ public class ProcessadorContas {
                 throw new RuntimeException("Valor da conta deve ser menor que 5000 para ser paga com boleto");
             }
 
-            if (dataPagamento.after(conta.getData())) {
-                fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
-                verificaSeFaturaFoiPaga();
-                return;
+            if (dataPagamento.before(fatura.getData())) {
+                if (dataPagamento.after(conta.getData())) {
+                    fatura.addValorPagamento(conta.getValor().multiply(BigDecimal.valueOf(1.1)));
+                } else {
+                    fatura.addValorPagamento(conta.getValor());
+                }
             }
-            fatura.addValorPagamento(conta.getValor());
+
             verificaSeFaturaFoiPaga();
             return;
         }
